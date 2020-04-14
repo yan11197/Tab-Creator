@@ -42,11 +42,25 @@ function keyPressed(event) {
 
         if (multiple === false) {
             Legend.shift.attr("fill", "lightgrey").style("opacity", 1);
-            FretBoard.shiftReleased()
+            if (FretBoard.current_click.join('') !== "------") {FretBoard.shiftReleased()}
         } else {Legend.shift.attr("fill", "green").style("opacity", .75);}
     }
 
-    if (!multiple) {
+    // Move cursor
+    else if (event['key'] === 'ArrowLeft') {
+        if (Tab.counter > 0) {
+            Tab.counter -= 2;
+            Tab.MarkerMove()
+        }
+    }
+    else if (event['key'] === 'ArrowRight') {
+        if (Tab.counter < tab_memory[0].length) {
+            Tab.counter += 2;
+            Tab.MarkerMove()
+        }
+    }
+
+    else if (!multiple) {
         if (event['key'] === "h") {
             hammer_on = !hammer_on;
 
@@ -170,20 +184,6 @@ function keyPressed(event) {
                 Tab.counter = Tab.counter - 1
                 Tab.TabAddition()
             }
-        }
-    }
-
-    // Move cursor
-    else if (event['key'] === 'ArrowLeft') {
-        if (Tab.counter > 0) {
-            Tab.counter -= 2;
-            Tab.MarkerMove()
-        }
-    }
-    else if (event['key'] === 'ArrowRight') {
-        if (Tab.counter < tab_memory[0].length) {
-            Tab.counter += 2;
-            Tab.MarkerMove()
         }
     }
 }
