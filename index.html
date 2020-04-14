@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>D3 Project</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <div class="container-fluid" style="height: 100vh; width: 97vw; padding-top: 0vh; padding-left: 0vh; padding-right: 0vh">
+<!--        Selectors for Key-->
+        <div class="row" style="height: 5vh; padding-top: 2vh; padding-left: 4.5vw; padding-right: 4.5vw">
+            <select id="key_note" onchange="FretBoard.updateKey()">
+                <option value="-">-</option>
+                <option value="C">C</option>
+                <option value="Db">Db</option>
+                <option value="D">D</option>
+                <option value="Eb">Eb</option>
+                <option value="E">E</option>
+                <option value="F">F</option>
+                <option value="Gb">Gb</option>
+                <option value="G">G</option>
+                <option value="Ab">Ab</option>
+                <option value="A">A</option>
+                <option value="Bb">Bb</option>
+                <option value="B">B</option>
+            </select>
+
+            <select id="key_mode" onchange="FretBoard.updateKey()">
+                <option value="-">-</option>
+                <option value="Major">Major</option>
+                <option value="Minor">Minor</option>
+            </select>
+        </div>
+
+<!--        Fretboard SVG-->
+        <div class="row" style="height: 25vh; padding-top: 2vh; padding-left: 4vw; padding-right: 4vw">
+            <div style="width: 80vw; padding-right: 2vw" id="fretboard"></div>
+            <div style="width: 10vw" id="legend"></div>
+        </div>
+
+<!--        Tab SVG-->
+        <div class="row" style="height: 50vh; padding-top: 2vh; padding-left: 7vh; padding-right: 7vh" id="tab"></div>
+    </div>
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/d3.min.js"></script>
+
+    <script src="js/fretboard.js"></script>
+    <script src="js/tab.js"></script>
+    <script src="js/legend.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
