@@ -2,7 +2,7 @@
 
 ## Key Specification:
 - Pick a key from the sliders above to denote on the fretboard which notes are in that key
-* Will add further scales (pentatonic, etc.)
+- Will add further scales (pentatonic, etc.)
 
 ## Tab Creation:
 - Press highlighted fret to add it to the tab
@@ -13,7 +13,7 @@
 - Using this you can add hammerons, pulloffs, slides, bends, releases, and chords
 - For hammerons, pulloffs, slides, bends, and releases press "h", "p", "/", "\", "b", and "r" respectivly
 - Once you pick the next note it will be inserted correctly in the tab
-* Will add functionailty to only add if it is viable
+- Will add functionailty to only add if it is viable
 - For chords press the shift key, click all the notes you wish to add, then press again to add the chord to the tab
 
 ## Saved Chords:
