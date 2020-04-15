@@ -36,7 +36,7 @@ function keyPressed(event) {
     // Save a chord
     if (event['key'] === "s" && multiple) {
         // Add the new chord to saved chords
-        if (! saved_chords.includes(FretBoard.current_click)) {
+        if (! saved_chords.includes(FretBoard.current_click.join(""))) {
             Saved.saveChord()
         }
     }
