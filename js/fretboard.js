@@ -308,7 +308,7 @@ FretBoard.prototype.updateKey = function() {
 
                 if (key[v] === true) {
                     vis.svg.select("#fk_f" + j.toString() + "s" + (i+1).toString())
-                        .style("opacity", .65)
+                        .style("opacity", .75)
                 }
                 else {
                     vis.svg.select("#fk_f" + j.toString() + "s" + (i+1).toString())

@@ -7,3 +7,8 @@ body {
 
 h1 {
 }
+
+div#saved {
+	height: 400px;
+	overflow: scroll;
+}

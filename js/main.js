@@ -21,6 +21,9 @@ var bend = false;
 var release = false;
 var space = false;
 
+// Create an array to remember saved chords
+var saved_chords = [];
+
 document.addEventListener("keydown", keyPressed, false);
 
 // Helper function to toggle everything off
@@ -29,8 +32,18 @@ function toggle_off (a) {
 }
 
 function keyPressed(event) {
+    // Save a chord
+    if (event['key'] === "s" && multiple) {
+        // Add the new chord to saved chords
+        if (! saved_chords.includes(FretBoard.current_click)) {
+            saved_chords.push([FretBoard.current_click])
+
+            Saved.updateVis()
+        }
+    }
+
     // Legend key events
-    if (event['key'] === "Shift") {
+    else if (event['key'] === "Shift") {
         multiple =  !multiple;
 
         toggle_off(Legend.hammer); hammer_on = false;
@@ -192,4 +205,5 @@ function makeFredBoard() {
      FretBoard = new FretBoard("fretboard");
      Legend = new Legend("legend")
      Tab = new Tab("tab", FretBoard);
+     Saved = new Saved("saved", FretBoard);
 }

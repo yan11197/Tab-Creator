@@ -38,7 +38,7 @@ Tab.prototype.initVis = function() {
         .attr("y", 7)
         .attr('width', 7)
         .attr("height", 6 * 17.5)
-        .attr("fill", "green")
+        .attr("fill", "goldenrod")
         .attr("opacity", .7);
 
 };
