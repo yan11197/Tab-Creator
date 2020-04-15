@@ -51,9 +51,22 @@ Saved.prototype.initVis = function() {
         .style("text-anchor", "middle");
 };
 
+
+Saved.prototype.saveChord = function() {
+    var vis = this;
+
+    var chord = prompt("Enter chord name:")
+    if (chord != null) {
+        saved_chords.push([FretBoard.current_click]);
+        saved_chords_map.push([chord, FretBoard.current_click])
+    }
+
+    vis.updateVis();
+};
+
 Saved.prototype.updateVis = function() {
     var vis = this;
-    
+
     vis.svg.attr("viewBox", vis.dim[0] + Math.max(400, 110*saved_chords.length + 25 + vis.inner_margin*2));
     vis.backdrop.attr("height", Math.max(400, 110*saved_chords.length + 25 + vis.inner_margin*2));
-}
+};

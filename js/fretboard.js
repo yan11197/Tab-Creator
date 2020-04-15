@@ -152,7 +152,6 @@ FretBoard.prototype.initVis = function() {
 
     }
 
-
     vis.createFunctions()
 };
 
@@ -269,6 +268,9 @@ FretBoard.prototype.shiftReleased = function() {
             if (c_h !== "-") {d3.select("#" + c_h).style("opacity", 0)}
         }
     }
+
+    // Toggling off the current highlight
+    vis.current_highlight = ["-", "-", "-", "-", "-", "-"]
 
     Tab.counter = Tab.counter + 2
 

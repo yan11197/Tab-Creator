@@ -23,6 +23,7 @@ var space = false;
 
 // Create an array to remember saved chords
 var saved_chords = [];
+var saved_chords_map = [];
 
 document.addEventListener("keydown", keyPressed, false);
 
@@ -36,9 +37,7 @@ function keyPressed(event) {
     if (event['key'] === "s" && multiple) {
         // Add the new chord to saved chords
         if (! saved_chords.includes(FretBoard.current_click)) {
-            saved_chords.push([FretBoard.current_click])
-
-            Saved.updateVis()
+            Saved.saveChord()
         }
     }
 
@@ -55,7 +54,8 @@ function keyPressed(event) {
 
         if (multiple === false) {
             Legend.shift.attr("fill", "lightgrey").style("opacity", 1);
-            if (FretBoard.current_click.join('') !== "------") {FretBoard.shiftReleased()}
+            if (FretBoard.current_click.join('') !== "------") {
+                FretBoard.shiftReleased()}
         } else {Legend.shift.attr("fill", "green").style("opacity", .75);}
     }
 
