@@ -14,7 +14,7 @@ Saved.prototype.initVis = function() {
     vis.margin = {left: 0, right: 0, bottom: 0, top: 0, box: 105, text: 25, names: 15}
     vis.width = $("#" + vis.parentElement).width() - vis.margin.left - vis.margin.right;
     vis.height = $("#" + vis.parentElement).height() - vis.margin.top - vis.margin.bottom;
-    vis.dim = ["0, 0," + (vis.width + vis.margin.left + vis.margin.right).toString() + ",", 400]
+    vis.dim = ["0, 0," + (vis.width + vis.margin.left + vis.margin.right).toString() + ",", vis.height.toString()]
 
     // Creating the svg
     vis.svg = d3.select("#" + vis.parentElement).append("svg")
@@ -23,7 +23,7 @@ Saved.prototype.initVis = function() {
     // Creating the backdrop rectangle
     vis.backdrop = vis.svg.append("rect")
         .attr("width", vis.width + vis.margin.left + vis.margin.right)
-        .attr("height", 400)
+        .attr("height", vis.height)
         .attr("fill", "steelblue")
         .attr("x", 0)
         .attr("y", 0)
@@ -58,12 +58,12 @@ Saved.prototype.saveChord = function() {
 
     var chord = prompt("Enter chord name:")
     if (chord != null) {
+
         // Getting the chord number
         var chord_number = saved_chords.length;
 
-        // Adding to the datasets
+        // Adding to the saved_chords
         saved_chords.push(FretBoard.current_click.join(""));
-        saved_chords_map.push([chord, FretBoard.current_click, FretBoard.current_highlight])
 
         // Adding to fret_data
         var fret_min = FretBoard.fret_count+1;
@@ -79,12 +79,18 @@ Saved.prototype.saveChord = function() {
         // Getting the number of frets used (minimum 4)
         var number_of_frets = Math.max(4, fret_max-fret_min+1)
 
+        // Adding to saved_chords_map 1. chord name 2. chord as numbers 3. chord as id's 4. min fret 5. number of frets
+        saved_chords_map.push([chord, [...FretBoard.current_click], FretBoard.current_highlight, fret_min, number_of_frets])
+
+
         // Pushing the (1. Chord Number, 2. Fret Number (0-n), 3. Total number of frets, 4. Minimum value
-        for (var j = 0; j <= number_of_frets; j++) {
+        for (var j = 0; j < number_of_frets; j++) {
             vis.fret_data.push([chord_number, j, number_of_frets, fret_min])
         }
 
         vis.updateVis();
+
+        console.log(saved_chords_map)
     }
 };
 
@@ -92,7 +98,7 @@ Saved.prototype.updateVis = function() {
     var vis = this;
 
     // Updating the dimensions of the chord box
-    var len = Math.max(400, (vis.margin.box+vis.inner_margin*3 + vis.margin.names + vis.margin.text)*saved_chords.length + vis.inner_margin*4);
+    var len = Math.max(vis.height, (vis.margin.box+vis.inner_margin*3 + vis.margin.names + vis.margin.text)*saved_chords.length + vis.inner_margin*4);
 
     vis.svg.attr("viewBox", vis.dim[0] + len)
     vis.backdrop.attr("height", len)
@@ -158,7 +164,7 @@ Saved.prototype.updateVis = function() {
         .attr("height", vis.margin.box)
         .attr("fill", "black");
 
-    chord_boxes.enter().remove()
+    chord_boxes.exit().remove()
 
     // Adding the frets
     var fret_bars = vis.svg.selectAll(".fret_bars")
@@ -173,7 +179,7 @@ Saved.prototype.updateVis = function() {
         .attr("fill", "silver")
         .style("opacity", .75);
 
-    fret_bars.enter().remove()
+    fret_bars.exit().remove()
 
     // Adding the strings
     var strings = [1, 2, 3, 4, 5, 6]
@@ -192,7 +198,7 @@ Saved.prototype.updateVis = function() {
                 else {return "goldenrod"}
             });
 
-        chord_string.enter().remove()
+        chord_string.exit().remove()
     }
 
     // Add the inlays (not 12)
@@ -212,7 +218,7 @@ Saved.prototype.updateVis = function() {
            else {return 0}
         });
 
-    fret_inlays.enter().remove()
+    fret_inlays.exit().remove()
 
     // Add the inlays (12)
     for (var i = 1; i < 3; i++) {
@@ -230,7 +236,57 @@ Saved.prototype.updateVis = function() {
                 else {return 0}
             });
 
-        fret_inlays.enter().remove()
+        fret_inlays.exit().remove()
     }
 
+    // Add the text
+    var fret_text = vis.svg.selectAll(".fret_text")
+        .data(vis.fret_data)
+
+    fret_text.enter().append("text")
+        .attr("x", function(d) {return vis.inner_margin + ((vis.width-vis.inner_margin*2)/d[2]) * (d[1]+.5)})
+        .attr("y", function (d) {
+            return vis.margin.box + vis.inner_margin*1.5 + vis.margin.names * (d[0]) + vis.margin.text*(d[0]+2) + vis.inner_margin*3 + (vis.margin.box+vis.inner_margin*2)*(d[0]);})
+        .text(function(d) {
+            var val = d[1] + d[3];
+            if (val < d[2] + d[3]) {return val.toString()}
+        })
+        .attr("font-size", 10)
+        .attr("alignment-baseline", "middle")
+        .style("text-anchor", "middle");
+
+    // Add the highlighted notes
+
+    // Iterate through all the chords
+    for (var i = 0; i < saved_chords_map.length; i++) {
+        // Getting the specific chord map
+        var chord_map = saved_chords_map[i];
+
+        // Making the chord info with a unique class
+        var chord_highlights = vis.svg.selectAll(".chord_highlights" + i.toString())
+            .data(saved_chords_map[i][1]);
+
+        chord_highlights.enter().append("rect")
+            .attr("class", ".chord_highlights" + i.toString())
+            .attr("x", function(d) {
+                var fret_val = parseInt(d);
+                if (!isNaN(fret_val)) {
+                    return vis.inner_margin + (vis.width - vis.inner_margin * 2) / (chord_map[4]) * (fret_val - chord_map[3]) + 3 * 5 / chord_map[4] + 2
+                } else {
+                    return -50
+                }
+            })
+            .attr("y", function (d, id) {
+                return vis.margin.names * (i) + ((id+1)*2 - 1.5) * (vis.margin.box/12) + vis.margin.text*(i+2) + vis.inner_margin*2.5 + (vis.margin.box+vis.inner_margin*2)*(i);
+            })
+                // return vis.margin.names * (i) + (id*2 - 1) * (vis.margin.box/12) + vis.margin.text*(i+2) + vis.inner_margin*3 + (vis.margin.box+vis.inner_margin*2)*(id);})
+            .attr('width', (vis.width - vis.inner_margin*2)/(chord_map[4]) - 3*5/chord_map[4] - 4)
+            .attr("height", vis.margin.box/6 - 4)
+            .attr("rx", 2)
+            .attr("ry", 2)
+            .attr("fill", "white")
+            .style("opacity", .85);
+
+        chord_highlights.exit().remove()
+    }
 };
