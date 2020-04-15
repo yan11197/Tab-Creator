@@ -58,7 +58,7 @@ Saved.prototype.saveChord = function() {
     var chord = prompt("Enter chord name:")
     if (chord != null) {
         saved_chords.push([FretBoard.current_click]);
-        saved_chords_map.push([chord, FretBoard.current_click])
+        saved_chords_map.push([chord, FretBoard.current_click, FretBoard.current_highlight])
     }
 
     vis.updateVis();
@@ -67,6 +67,49 @@ Saved.prototype.saveChord = function() {
 Saved.prototype.updateVis = function() {
     var vis = this;
 
-    vis.svg.attr("viewBox", vis.dim[0] + Math.max(400, 110*saved_chords.length + 25 + vis.inner_margin*2));
-    vis.backdrop.attr("height", Math.max(400, 110*saved_chords.length + 25 + vis.inner_margin*2));
+    console.log("here")
+
+    // Updating the dimensions of the chord box
+    vis.svg.attr("viewBox", vis.dim[0] +
+        Math.max(400, (110+vis.inner_margin*2)*saved_chords.length + 25 + vis.inner_margin*2));
+    vis.backdrop.attr("height",
+        Math.max(400, (110+vis.inner_margin*2)*saved_chords.length + 25 + vis.inner_margin*2));
+
+    // Adding the chords
+    var chord_button = vis.svg.selectAll(".chord_button")
+        .data(saved_chords_map);
+
+    // Adding the dots
+    chord_button.enter().append("rect")
+        .attr("class", "chord_button")
+        .merge(chord_button)
+        .attr("x", vis.inner_margin)
+        .attr("y", function (d, id) {
+            return 25 + vis.inner_margin*2 + (105+vis.inner_margin*2)*(id);})
+        .attr('width', vis.width - vis.inner_margin*2)
+        .attr("height", 25)
+        .attr("rx", 4)
+        .attr("ry", 4)
+        .attr("fill", "lightgrey");
+
+    chord_button.exit().remove();
+
+    vis.svg.selectAll(".chord_button")
+        .on("mouseover", function() {
+            d3.select(this)
+                .attr("fill", "green")
+                .style("opacity", .75);
+        })
+        .on("mouseout", function() {
+            d3.select(this)
+                .attr("fill", "lightgrey")
+                .style("opacity", 1);
+        })
+        .on("click", function(d) {
+            FretBoard.current_click = d[1];
+            FretBoard.current_highlight = d[2];
+            FretBoard.shiftReleased()
+        })
+
+
 };
