@@ -20,3 +20,4 @@
 - While in chord mode press "s" to save out the chord
 - Insert the chord's name and it will appear on the right
 - Click the label above the chord visualization to insert the chord
+- To clear your saved chords press "c"
