@@ -292,6 +292,8 @@ FretBoard.prototype.updateKey = function() {
     var key;
     if (mode === "Major") {key = major}
     else if (mode === "Minor") {key = minor}
+    else if (mode === "Major_pent") {key = major_pent}
+    else if (mode === "Minor_pent") {key = minor_pent}
 
     // Getting the notes which are in the key
     if (note === '-' || mode === '-') {vis.svg.selectAll(".fret_key").style("opacity", 0)}

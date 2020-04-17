@@ -10,6 +10,8 @@ var tab_memory;
 // Creating the intervals for major, minor, (can easily add more)
 var major = [true, false, true, false, true, true, false, true, false, true, false, true]
 var minor = [true, false, true, true, false, true, false, true, true, false, true, false]
+var major_pent = [true, false, true, false, true, false, false, true, false, true, false, false];
+var minor_pent = [true, false, false, true, false, true, false, true, false, false, true, false]
 
 // Create variables for keys
 var multiple = false;
