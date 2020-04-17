@@ -2,6 +2,11 @@ Tab = function(_parentElement, _fretboard) {
     this.parentElement = _parentElement;
     this.fretboard = _fretboard;
     this.counter = 0;
+    this.tab_memory_string = [[], [], [], [], [], []]
+
+    // To get the number of characters a line can hold
+    this.max_length = 0;
+    this.font_width = 9;
 
     this.initVis();
 };
@@ -21,14 +26,14 @@ Tab.prototype.initVis = function() {
         .attr("class", "tab");
 
     // Creating 6 textboxes
+    var v = [FretBoard.first.toLowerCase(), FretBoard.second, FretBoard.third, FretBoard.fourth, FretBoard.fifth, FretBoard.sixth]
     for (var i = 0; i < 6; i++) {
         vis.svg.append("text")
-            .attr("class", "tab_text")
-            .attr("id", "tab_s" + (i+1).toString())
+            .attr("class", "tab_text" + i.toString())
             .attr("x", vis.margin.left)
             .attr("y", vis.margin.top + i * 17.5)
-            .text(tab_memory[i].join(""));
-    }
+            .text(v[i] + " |");
+    };
 
     // Creating the placemarker
     // With this font it is 9 pixels to get from space to space
@@ -41,22 +46,94 @@ Tab.prototype.initVis = function() {
         .attr("fill", "goldenrod")
         .attr("opacity", .7);
 
+    vis.max_length = Math.floor((vis.width-vis.font_width*5)/vis.font_width)
 };
+
+function splitString (string, size) {
+    var re = new RegExp('.{1,' + size + '}', 'g');
+    return string.match(re);
+}
 
 Tab.prototype.TabAddition = function() {
     var vis = this;
 
+    // Make tab_key
+    vis.makeTabKey()
+
+    // Getting array of the joined strings
     for (var i = 0; i < 6; i++) {
-        vis.svg.select("#tab_s" + (i + 1).toString())
-            .text(tab_memory[i].join(""))
+        var s = tab_memory[i].slice(1, tab_memory[0].length).join("")
+        vis.tab_memory_string[i] = splitString(s, vis.max_length)
     }
 
+    // Adding the spaces and the key signature
+    for (var i = 0; i < 6; i++) {
+        if (vis.tab_memory_string[i] == null) {
+            vis.tab_memory_string[i] = tab_key[i]
+        } else {
+            for (var j = 0; j < vis.tab_memory_string[0].length; j++) {
+                vis.tab_memory_string[i][j] = tab_key[i] + vis.tab_memory_string[i][j]
+            }
+        }
+    }
+
+    console.log(vis.tab_memory_string[0])
+
+    // Adding the text
+    for (var i = 0; i < 6; i++) {
+        var tab_text = vis.svg.selectAll(".tab_text" + i.toString())
+            .data(vis.tab_memory_string[i])
+
+        tab_text.enter().append("text")
+            .attr("class", "tab_text" + i.toString())
+            .attr("x", vis.margin.left)
+            .attr("y", function(d, id) {return vis.margin.top + i*17.5 + 17.6*7*id})
+            .text(function(d) {return d})
+
+        tab_text.text(function(d) {return d})
+
+        tab_text.exit().remove()
+    };
+
     vis.MarkerMove();
-}
+};
 
 Tab.prototype.MarkerMove = function() {
     var vis = this;
 
     // Setting the x value
-    vis.mark.attr("x", 1 + tab_memory[0].slice(0, vis.counter+1).join("").length*9)
+    vis.mark.attr("x", 1 + (2+tab_memory[0].slice(0, vis.counter+1).join("").length)*9)
+};
+
+Tab.prototype.clearTab = function() {
+    var vis = this;
+
+    // Updating the counter
+    vis.counter = 0
+
+    // Filling the tab memory
+    tab_memory = [];
+    for (var i = 0; i < 6; i++) {
+        tab_memory.push(["|"])
+    }
+
+    // Filling the tab_memory string list
+    vis.makeTabKey()
+    // vis.TabAddition();
+    vis.MarkerMove();
+
+}
+
+Tab.prototype.makeTabKey = function() {
+    var vis = this
+
+    // Finding out if there are any flats or not
+    tab_key = []
+    var key = [FretBoard.first.toLowerCase(), FretBoard.second, FretBoard.third, FretBoard.fourth, FretBoard.fifth, FretBoard.sixth];
+
+
+    for (var i =0; i < 6; i++) {
+        if (key[i].length > 1) {tab_key.push([key[i] + "|"])}
+        else {tab_key.push([key[i] + " |"])}
+    }
 }

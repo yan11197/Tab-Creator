@@ -10,44 +10,135 @@
 
     <div class="container-fluid" style="height: 100vh; width: 97vw; padding-top: 0vh; padding-left: 0vh; padding-right: 0vh">
 <!--        Selectors for Key-->
-        <div class="row" style="height: 5vh; padding-top: 2vh; padding-left: 4.5vw; padding-right: 4.5vw">
-            <div style="padding-right: .5vw">Key:</div>
-            <select id="key_note" onchange="FretBoard.updateKey()">
-                <option value="-">-</option>
-                <option value="C">C</option>
-                <option value="Db">Db</option>
-                <option value="D">D</option>
-                <option value="Eb">Eb</option>
-                <option value="E">E</option>
-                <option value="F">F</option>
-                <option value="Gb">Gb</option>
-                <option value="G">G</option>
-                <option value="Ab">Ab</option>
-                <option value="A">A</option>
-                <option value="Bb">Bb</option>
-                <option value="B">B</option>
-            </select>
+        <div class="row" style="height: 5vh; padding-top: 2vh; padding-left: 2vw; padding-right: 4.5vw">
+            <div class="col">
+                <select id="key_note" style="width: 2.75vw; height: 20px" onchange="FretBoard.updateKey()">
+                    <option value="-">-</option>
+                    <option value="C">C</option>
+                    <option value="Db">Db</option>
+                    <option value="D">D</option>
+                    <option value="Eb">Eb</option>
+                    <option value="E">E</option>
+                    <option value="F">F</option>
+                    <option value="Gb">Gb</option>
+                    <option value="G">G</option>
+                    <option value="Ab">Ab</option>
+                    <option value="A">A</option>
+                    <option value="Bb">Bb</option>
+                    <option value="B">B</option>
+                </select>
 
-            <select id="key_mode" onchange="FretBoard.updateKey()">
-                <option value="-">-</option>
-                <option value="Major">Major</option>
-                <option value="Minor">Minor</option>
-                <option value="Major_pent">Major Pentatonic</option>
-                <option value="Minor_pent">Minor Pentatonic</option>
+                <select id="key_mode" style="width: 16vw; height: 20px" onchange="FretBoard.updateKey()">
+                    <option value="-">-</option>
+                    <option value="Major">Major</option>
+                    <option value="Minor">Minor</option>
+                    <option value="Major_pent">Major Pentatonic</option>
+                    <option value="Minor_pent">Minor Pentatonic</option>
+                </select>
 
-            </select>
+                <button class="button" id="button_r" style="height: 20px; width: 35px" onclick="FretBoard.rootHighlight()">1</button>
+                <button class="button" id="button_3" style="height: 20px; width: 35px" onclick="FretBoard.thirdHighlight()">3</button>
+                <button class="button" id="button_5" style="height: 20px; width: 35px" onclick="FretBoard.fifthHighlight()">5</button>
+            </div>
         </div>
 
 <!--        Fretboard SVG-->
-        <div class="row" style="height: 20vh; padding-top: 2vh; padding-left: 4vw; padding-right: 4vw">
+        <div class="row" style="height: 20vh; padding-top: 2vh; padding-left: 2vw; padding-right: 4vw">
+            <div class="col" style="width: 2vw" id="tuners">
+                <select id="tuner_1" style="width: 2.75vw" class="tuner_select" onchange="FretBoard.keyChange()">
+                    <option value="E">e</option>
+                    <option value="F">f</option>
+                    <option value="Gb">gb</option>
+                    <option value="G">g</option>
+                    <option value="Ab">ab</option>
+                    <option value="A">a</option>
+                    <option value="Bb">bb</option>
+                    <option value="B">b</option>
+                    <option value="C">c</option>
+                    <option value="Db">db</option>
+                    <option value="D">d</option>
+                    <option value="Eb">eb</option>
+                </select>
+                <select id="tuner_2" style="width: 2.75vw" class="tuner_select" onchange="FretBoard.keyChange()">
+                    <option value="B">B</option>
+                    <option value="C">C</option>
+                    <option value="Db">Db</option>
+                    <option value="D">D</option>
+                    <option value="Eb">Eb</option>
+                    <option value="E">E</option>
+                    <option value="F">F</option>
+                    <option value="Gb">Gb</option>
+                    <option value="G">G</option>
+                    <option value="Ab">Ab</option>
+                    <option value="A">A</option>
+                    <option value="Bb">Bb</option>
+                </select>
+                <select id="tuner_3" style="width: 2.75vw" class="tuner_select" onchange="FretBoard.keyChange()">
+                    <option value="G">G</option>
+                    <option value="Ab">Ab</option>
+                    <option value="A">A</option>
+                    <option value="Bb">Bb</option>
+                    <option value="B">B</option>
+                    <option value="C">C</option>
+                    <option value="Db">Db</option>
+                    <option value="D">D</option>
+                    <option value="Eb">Eb</option>
+                    <option value="E">E</option>
+                    <option value="F">F</option>
+                    <option value="Gb">Gb</option>
+                </select>
+                <select id="tuner_4" style="width: 2.75vw" class="tuner_select" onchange="FretBoard.keyChange()">
+                    <option value="D">D</option>
+                    <option value="Eb">Eb</option>
+                    <option value="E">E</option>
+                    <option value="F">F</option>
+                    <option value="Gb">Gb</option>
+                    <option value="G">G</option>
+                    <option value="Ab">Ab</option>
+                    <option value="A">A</option>
+                    <option value="Bb">Bb</option>
+                    <option value="B">B</option>
+                    <option value="C">Cb</option>
+                    <option value="Db">Db</option>
+                </select>
+                <select id="tuner_5" style="width: 2.75vw" class="tuner_select" onchange="FretBoard.keyChange()">
+                    <option value="A">A</option>
+                    <option value="Bb">Bb</option>
+                    <option value="B">B</option>
+                    <option value="C">C</option>
+                    <option value="Db">Db</option>
+                    <option value="D">D</option>
+                    <option value="Eb">Eb</option>
+                    <option value="E">E</option>
+                    <option value="F">F</option>
+                    <option value="Gb">Gb</option>
+                    <option value="G">G</option>
+                    <option value="Ab">Ab</option>
+                </select>
+                <select id="tuner_6" style="width: 2.75vw" class="tuner_select" onchange="FretBoard.keyChange()">
+                    <option value="E">E</option>
+                    <option value="F">F</option>
+                    <option value="Gb">Gb</option>
+                    <option value="G">G</option>
+                    <option value="Ab">Ab</option>
+                    <option value="A">A</option>
+                    <option value="Bb">Bb</option>
+                    <option value="B">B</option>
+                    <option value="C">C</option>
+                    <option value="Db">Db</option>
+                    <option value="D">D</option>
+                    <option value="Eb">Eb</option>
+                </select>
+            </div>
             <div style="width: 78vw; padding-right: 2vw" id="fretboard"></div>
-            <div style="width: 12vw" id="legend"></div>
+            <div style="width: 10vw" id="legend"></div>
         </div>
 
 <!--        Tab SVG-->
-        <div class = "row" style="height: 70vh; padding-top: 2vh; padding-left: 4vw; padding-right: 4vw">
-            <div style="width: 78vw; padding-right: 2vw" id="tab"></div>
-            <div style="width: 12vw; height: 70vh" id="saved"></div>
+        <div class = "row" style="height: 70vh; padding-top: 2vh; padding-left: 2.5vw; padding-right: 4vw">
+<!--            <div class="col" style="width: 1vw"></div>-->
+            <div class="col" style="width: 82vw; padding-right: 2vw" id="tab"></div>
+            <div style="width: 10vw; height: 70vh" id="saved"></div>
         </div>
 
     </div>

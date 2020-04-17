@@ -5,7 +5,25 @@ body {
 	font-size: 15px
 }
 
-h1 {
+select {
+	border: 1px solid lightgrey;
+	background-color: #E8E8E8;
+	vertical-align: middle
+}
+
+.button {
+	border: 1px solid lightgrey;
+	background-color: #E8E8E8;
+	color: black;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	border-radius: 6px;
+	vertical-align: middle;
+}
+
+div#tuners {
+	font-size:12px;
 }
 
 div#saved {

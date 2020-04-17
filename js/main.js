@@ -6,6 +6,7 @@ makeFredBoard();
 var scale_map = {C : 1, Db: 2, D: 3, Eb: 4, E: 5, e: 5, F: 6, Gb: 7, G: 8, Ab: 9, A: 10, Bb: 11, B: 12};
 var string_list;
 var tab_memory;
+var tab_key;
 
 // Creating the intervals for major, minor, (can easily add more)
 var major = [true, false, true, false, true, true, false, true, false, true, false, true]

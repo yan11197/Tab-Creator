@@ -12,6 +12,10 @@ FretBoard = function(_parentElement) {
     this.current_highlight = ["-", "-", "-", "-", "-", "-"];
     this.current_tone = "-";
 
+    this.root = false;
+    this.third_s = false;
+    this.fifth_s = false;
+
     this.initVis();
 };
 
@@ -24,7 +28,7 @@ FretBoard.prototype.initVis = function() {
     // Filling the tab_memory string list
     tab_memory = []
     for (var i =0; i < 6; i++) {
-        tab_memory.push([string_list[i] + "|"])
+        tab_memory.push(["|"])
     }
 
     // Define the svg size
@@ -46,6 +50,14 @@ FretBoard.prototype.initVis = function() {
         .attr('width', vis.width)
         .attr("height", vis.height)
         .attr("fill", "black");
+
+    // Set the height of the button column
+    document.getElementById("tuners").style.height = vis.height.toString() + "px"
+    var tuners = document.getElementsByClassName("tuner_select");
+    // document.getElementsByClassName("tuner_select").style.height
+    for (var i = 0; i < 6; i++) {
+        tuners[i].style.height = (vis.height/6).toString() + "px"
+    }
 
     // Adding the sensor rectangles for key highlighting
     for (var f = 0; f <= vis.fret_count; f++) {
@@ -277,9 +289,44 @@ FretBoard.prototype.shiftReleased = function() {
     Tab.TabAddition();
 };
 
-FretBoard.prototype.TonalTool = function() {
+FretBoard.prototype.keyChange = function() {
     var vis = this;
-}
+
+    if (confirm("Do you want to change key? Current tab and saved chords will be removed.") == true) {
+        vis.first = d3.select("#tuner_1").property("value");
+        vis.second = d3.select("#tuner_2").property("value");
+        vis.third = d3.select("#tuner_3").property("value");
+        vis.fourth = d3.select("#tuner_4").property("value");
+        vis.fifth = d3.select("#tuner_5").property("value");
+        vis.sixth = d3.select("#tuner_6").property("value");
+
+        // Removing the saved chords
+        Saved.clearChord()
+
+        // Removing the highlights
+        vis.shiftReleased()
+
+        // Removing the current selection
+        vis.current_click = ["-", "-", "-", "-", "-", "-"];
+        vis.current_highlight = ["-", "-", "-", "-", "-", "-"];
+        vis.current_tone = "-";
+
+        // Toggling off all variables
+        toggle_off(Legend.shift); multiple = false;
+        toggle_off(Legend.hammer); hammer_on = false;
+        toggle_off(Legend.pull); pull_off = false;
+        toggle_off(Legend.slide_up); slide_up = false;
+        toggle_off(Legend.slide_down); slide_down = false;
+        toggle_off(Legend.bend); bend = false;
+        toggle_off(Legend.release); release = false;
+
+        // Updating the tab
+        Tab.clearTab()
+
+        // Changing the key
+        vis.updateKey()
+    }
+};
 
 FretBoard.prototype.updateKey = function() {
     var vis = this;
@@ -303,6 +350,7 @@ FretBoard.prototype.updateKey = function() {
 
         // Iterating through the strings
         string_list = [vis.first, vis.second, vis.third, vis.fourth, vis.fifth, vis.sixth];
+
         for (var i = 0; i < string_list.length; i++) {
             // Seeing if each fret is valid in the key or not
             var string_val = scale_map[string_list[i]];
@@ -310,15 +358,63 @@ FretBoard.prototype.updateKey = function() {
             for (var j = 0; j < vis.fret_count; j++) {
                 var v = (string_val + j + 12 - note_val) % 12;
 
+                var note = vis.svg.select("#fk_f" + j.toString() + "s" + (i+1).toString());
+
+                // Highlighting based on if its the scale's 3rd or 5th
                 if (key[v] === true) {
-                    vis.svg.select("#fk_f" + j.toString() + "s" + (i+1).toString())
-                        .style("opacity", .75)
+                    if (v === 0 & vis.root) {note.attr("fill", "#ff5d47").style("opacity", .75)}
+                    else if ((v === 3 || v == 4) & vis.third_s) {note.attr("fill", "#5ec479").style("opacity", .75)}
+                    else if (v === 7 & vis.fifth_s) {note.attr("fill", "#5ea0c4").style("opacity", .75)}
+
+                    else {note.attr("fill", "#4F4F4F").style("opacity", .75)}
                 }
-                else {
-                    vis.svg.select("#fk_f" + j.toString() + "s" + (i+1).toString())
-                        .style("opacity", 0)
-                }
+                else {note.attr("fill", "#4F4F4F").style("opacity", 0)}
             }
         }
     }
+};
+
+FretBoard.prototype.rootHighlight = function () {
+    var vis = this;
+
+    // Reverse the root
+    vis.root = !vis.root;
+
+    // Reverse the color
+    if (vis.root) {
+        document.getElementById("button_r").style.borderColor = "#ff5d47";
+    }
+    else {document.getElementById("button_r").style.borderColor = "lightgrey";}
+
+    // Call update key
+    vis.updateKey()
+};
+
+FretBoard.prototype.thirdHighlight = function () {
+    var vis = this;
+
+    // Reverse the root
+    vis.third_s = !vis.third_s;
+
+    // Reverse the color
+    if (vis.third_s) {document.getElementById("button_3").style.borderColor = "green";}
+    else {document.getElementById("button_3").style.borderColor = "lightgrey";}
+
+    // Call update key
+    vis.updateKey()
+};
+
+FretBoard.prototype.fifthHighlight = function () {
+    var vis = this;
+
+    // Reverse the root
+    vis.fifth_s = !vis.fifth_s;
+
+    // Reverse the color
+    if (vis.fifth_s) {document.getElementById("button_5").style.borderColor = "blue";}
+    else {document.getElementById("button_5").style.borderColor = "lightgrey";}
+
+
+    // Call update key
+    vis.updateKey()
 };
