@@ -39,7 +39,7 @@ Tab.prototype.initVis = function() {
     // With this font it is 9 pixels to get from space to space
     vis.mark = vis.svg.append("rect")
         .attr("id", "mark")
-        .attr("x", 1 + 9 * 2)
+        .attr("x", 1 + 9 * 3)
         .attr("y", 7)
         .attr('width', 7)
         .attr("height", 6 * 17.5)
@@ -77,8 +77,6 @@ Tab.prototype.TabAddition = function() {
         }
     }
 
-    console.log(vis.tab_memory_string[0])
-
     // Adding the text
     for (var i = 0; i < 6; i++) {
         var tab_text = vis.svg.selectAll(".tab_text" + i.toString())
@@ -101,8 +99,12 @@ Tab.prototype.TabAddition = function() {
 Tab.prototype.MarkerMove = function() {
     var vis = this;
 
+    var mark_location = splitString(tab_memory[0].slice(0, vis.counter+1).join(""), vis.max_length)
+
     // Setting the x value
-    vis.mark.attr("x", 1 + (2+tab_memory[0].slice(0, vis.counter+1).join("").length)*9)
+    vis.mark
+        .attr("y", 7 + 17.6*7*(mark_location.length - 1))
+        .attr("x", 1 + (2+mark_location[mark_location.length - 1].length)*9)
 };
 
 Tab.prototype.clearTab = function() {

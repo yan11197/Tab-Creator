@@ -23,6 +23,8 @@ var slide_down = false;
 var bend = false;
 var release = false;
 var space = false;
+var fast_scrolling = false;
+var fast = 4;
 
 // Create an array to remember saved chords
 var saved_chords = [];
@@ -36,8 +38,11 @@ function toggle_off (a) {
 }
 
 function keyPressed(event) {
+    // Fast scrolling
+    if (event['key'] === "Meta") {fast_scrolling = !fast_scrolling}
+
     // Save a chord
-    if (event['key'] === "s" && multiple) {
+    else if (event['key'] === "s" && multiple) {
         // Add the new chord to saved chords
         if (! saved_chords.includes(FretBoard.current_click.join(""))) {
             Saved.saveChord()
@@ -72,13 +77,18 @@ function keyPressed(event) {
     // Move cursor
     else if (event['key'] === 'ArrowLeft') {
         if (Tab.counter > 0) {
-            Tab.counter -= 2;
+            if (fast_scrolling) {
+                Tab.counter = Math.max(0, Tab.counter - 2*fast)
+            } else {Tab.counter -= 2}
             Tab.MarkerMove()
         }
     }
     else if (event['key'] === 'ArrowRight') {
         if (Tab.counter < tab_memory[0].length) {
-            Tab.counter += 2;
+            if (fast_scrolling) {
+                Tab.counter = Math.min(Tab.counter + 2*fast, tab_memory[0].length)
+            } else {Tab.counter += 2}
+
             Tab.MarkerMove()
         }
     }
