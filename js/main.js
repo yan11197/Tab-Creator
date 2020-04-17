@@ -41,6 +41,13 @@ function keyPressed(event) {
         }
     }
 
+    else if (event['key'] == "c") {
+        // Clear the saved chords
+        if (confirm("Do you want to clear your saved chords?") == true) {
+            Saved.clearChord()
+        }
+    }
+
     // Legend key events
     else if (event['key'] === "Shift") {
         multiple =  !multiple;

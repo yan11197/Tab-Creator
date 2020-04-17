@@ -12,3 +12,7 @@ div#saved {
 	height: auto;
 	overflow: scroll;
 }
+
+select#key_note {
+	margin-right: 1vw;
+}

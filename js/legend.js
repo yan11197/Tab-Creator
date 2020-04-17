@@ -46,7 +46,7 @@ Legend.prototype.initVis = function() {
         .attr("x", vis.width/2)
         .attr("y", vis.inner_margin + (vis.height/4 - vis.inner_margin)/2)
         .attr("alignment-baseline", "middle")
-        .text("Multiple (shift)")
+        .text("Chord (shift)")
         .style("text-anchor", "middle");
 
     vis.hammer = vis.svg.append("rect")

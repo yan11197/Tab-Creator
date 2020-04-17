@@ -143,6 +143,7 @@ Saved.prototype.updateVis = function() {
         .data(saved_chords_map)
 
     chord_names.enter().append("text")
+        .attr("class", "chord_names")
         .attr("x", vis.width/2)
         .attr("y", function (d, id) {
             return vis.margin.names * (id) + vis.margin.text*(id+1.5) + vis.inner_margin*2 + (vis.margin.box+vis.inner_margin*2)*(id) + vis.inner_margin*.5*id%1;})
@@ -157,6 +158,7 @@ Saved.prototype.updateVis = function() {
         .data(saved_chords_map)
 
     chord_boxes.enter().append("rect")
+        .attr("class", "chord_boxes")
         .attr("x", vis.inner_margin)
         .attr("y", function (d, id) {
             return vis.margin.names * (id)+ vis.margin.text*(id+2) + vis.inner_margin*3 + (vis.margin.box+vis.inner_margin*2)*(id);})
@@ -171,6 +173,7 @@ Saved.prototype.updateVis = function() {
         .data(vis.fret_data)
 
     fret_bars.enter().append("rect")
+        .attr("class", "fret_bars")
         .attr("x", function(d) {return vis.inner_margin + ((vis.width-vis.inner_margin*2)/d[2]) * d[1]})
         .attr("y", function (d) {
             return vis.margin.names * (d[0]) + vis.margin.text*(d[0]+2) + vis.inner_margin*3 + (vis.margin.box+vis.inner_margin*2)*(d[0]);})
@@ -188,6 +191,7 @@ Saved.prototype.updateVis = function() {
             .data(saved_chords_map)
 
         chord_string.enter().append("rect")
+            .attr("class", "chord_string" + strings[i].toString())
             .attr("x", vis.inner_margin)
             .attr("y", function (d, id) {
                 return vis.margin.names * (id) + (strings[i]*2 - 1) * (vis.margin.box/12) + vis.margin.text*(id+2) + vis.inner_margin*3 + (vis.margin.box+vis.inner_margin*2)*(id);})
@@ -205,9 +209,10 @@ Saved.prototype.updateVis = function() {
     var inlays = [3, 5, 7, 9, 15, 17, 19, 21];
 
     var fret_inlays = vis.svg.selectAll(".chord_inlays")
-        .data(vis.fret_data)
+        .data(vis.fret_data);
 
     fret_inlays.enter().append("circle")
+        .attr("class", "chord_inlays")
         .attr("cy", function (d) {
             return (vis.margin.box * .5) + vis.margin.names * (d[0]) + vis.margin.text*(d[0]+2) + vis.inner_margin*3 + (vis.margin.box+vis.inner_margin*2)*(d[0]);})
         .attr("cx", function(d) {return vis.inner_margin + ((vis.width-vis.inner_margin*2)/d[2]) * (d[1]+.5) + 1})
@@ -226,6 +231,7 @@ Saved.prototype.updateVis = function() {
             .data(vis.fret_data)
 
         fret_inlays_12.enter().append("circle")
+            .attr("class", "chord_inlays" + i.toString() + " chord_inlays")
             .attr("cy", function (d) {
                 return (vis.margin.box/3* i) + vis.margin.names * (d[0]) + vis.margin.text*(d[0]+2) + vis.inner_margin*3 + (vis.margin.box+vis.inner_margin*2)*(d[0]);})
             .attr("cx", function(d) {return vis.inner_margin + ((vis.width-vis.inner_margin*2)/d[2]) * (d[1]+.5) + 1})
@@ -244,6 +250,7 @@ Saved.prototype.updateVis = function() {
         .data(vis.fret_data)
 
     fret_text.enter().append("text")
+        .attr("class", "fret_text")
         .attr("x", function(d) {return vis.inner_margin + ((vis.width-vis.inner_margin*2)/d[2]) * (d[1]+.5)})
         .attr("y", function (d) {
             return vis.margin.box + vis.inner_margin*1.5 + vis.margin.names * (d[0]) + vis.margin.text*(d[0]+2) + vis.inner_margin*3 + (vis.margin.box+vis.inner_margin*2)*(d[0]);})
@@ -254,6 +261,8 @@ Saved.prototype.updateVis = function() {
         .attr("font-size", 10)
         .attr("alignment-baseline", "middle")
         .style("text-anchor", "middle");
+
+    fret_text.exit().remove()
 
     // Add the highlighted notes
 
@@ -267,7 +276,7 @@ Saved.prototype.updateVis = function() {
             .data(saved_chords_map[i][1]);
 
         chord_highlights.enter().append("rect")
-            .attr("class", ".chord_highlights" + i.toString())
+            .attr("class", ".chord_highlights" + i.toString() + " chord_highlights")
             .attr("x", function(d) {
                 var fret_val = parseInt(d);
                 if (!isNaN(fret_val)) {
@@ -289,4 +298,18 @@ Saved.prototype.updateVis = function() {
 
         chord_highlights.exit().remove()
     }
+};
+
+Saved.prototype.clearChord = function () {
+    var vis = this;
+
+    vis.dim = ["0, 0," + (vis.width + vis.margin.left + vis.margin.right).toString() + ",", vis.height.toString()];
+    vis.fret_data = [];
+    saved_chords = [];
+    saved_chords_map = [];
+
+    // Remove all the highlighted notes
+    vis.svg.selectAll(".chord_highlights").remove();
+
+    vis.updateVis()
 };
