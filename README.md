@@ -22,3 +22,9 @@
 - Insert the chord's name and it will appear on the right
 - Click the label above the chord visualization to insert the chord
 - To clear your saved chords press __c__
+
+## Chord Search:
+- On the top right corner, use the drop downs to specificy a chord
+- Once specified press __enter__ to return a list of different chord voicings for that chord
+- Select a chord and continue
+- Warning: only chords inputted for standard interval tuning
