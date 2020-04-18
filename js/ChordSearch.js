@@ -97,6 +97,55 @@ ChordSearch.prototype.initVis = function() {
             [[-3, -2, -1, 0, '-', '-'], 3],
             [[2, 2, 2, 0, '-', '-'], 3]
         ]
+    };
+
+    vis.chord_shapes['Minor'] = {
+        '-' : [
+            [[0, 0, 0, 2, 2, 0], 5],
+            [[0, 1, 2, 2, 0, '-'], 4],
+            [[1, 3, 2, 0, '-', '-'], 3]
+        ],
+        '7' : [
+            [[0, 0, 0, 0, 2, 0], 5],
+            [[0, 1, 0, 2, 0, '-'], 4],
+            [[1, 2, 2, 0, '-', '-'], 3]
+        ]
+    };
+
+    vis.chord_shapes['Dom_7'] = {
+        '-' : [
+            [[0, 0, 1, 0, 2, 0], 5],
+            [[0, 2, 0, 2, 0, '-'], 4],
+            [['-', -2, 0, -1, 0, '-'], 4],
+            [[2, 1, 2, 0, '-', '-'], 3]
+        ],
+    };
+
+    vis.chord_shapes['Sus'] = {
+        '2' : [
+            [['-', '-', -3, -3, -3, 0], 5],
+            [[0, 0, 2, 2, 0, '-'], 4],
+            [[0, 3, 2, 0, '-', '-'], 3]
+        ],
+        '4' : [
+            [[0, 0, 2, 2, 2, 0], 5],
+            [[0, 3, 2, 2, 0, '-'], 4],
+            [[0, 0, 2, 2, '-', '-'], 3],
+            [[3, 1, 0, '-', '-', '-'], 2]
+        ]
+    };
+
+    vis.chord_shapes['Diminished'] = {
+        '-' : [
+            [['-', '-', 0, 2, 1, 0], 5],
+            [['-', 1, 2, 1, 0, '-'], 4],
+            [[1, '-', 1, 0, '-', '-'], 3]
+        ],
+        '7' : [
+            [[0, '-', -1, 0, -1, '-'], 5],
+            [['-', 1, -1, 1, 0, '-'], 4],
+            [[2, 1, 2, 1, '-', '-'], 3]
+        ]
     }
 
     // Insert the stationary chord shapes
@@ -110,9 +159,8 @@ ChordSearch.prototype.updateEmbellish = function (value) {
         "Major" : ['-', '7'],
         "Minor" : ['-', '7'],
         "Dom_7": ['-'],
-        'Sus': ['-', '2', '4'],
+        'Sus': ['2', '4'],
         'Diminished' : ['-', '7'],
-        'Augmented' : ['-', '7']
     }
 
     if (value === '-') {document.getElementById("chord_embellish").innerHTML = "<option>-</option>";}
@@ -170,6 +218,9 @@ ChordSearch.prototype.updateVis = function () {
 ChordSearch.prototype.showResults = function(note, triad, embellish) {
     var vis = this;
 
+    // Bool so you know when to push
+    var push = true
+
     // Get the point in the scale
     var scale_map_note = scale_map[note];
 
@@ -193,12 +244,15 @@ ChordSearch.prototype.showResults = function(note, triad, embellish) {
         for (var j = 0; j < 6; j++) {
             if (shapes_[i][0][j] !== '-') {
                 shape.push(shapes_[i][0][j] + s_v)
+
+                if (shapes_[i][0][j] + s_v < 0) {push = false}
             }
             else {shape.push('-')}
         }
 
         // Add the shape to shapes
-        shapes.push(shape);
+        if (push) {shapes.push(shape)}
+        else {push = true}
     }
 
     vis.buildResults(shapes, note, triad, embellish)
@@ -300,7 +354,7 @@ ChordSearch.prototype.buildResults = function(shapes, note, triad, embellish) {
         .attr("alignment-baseline", "middle")
         .text(function(d) {
             var triad_map = {
-                "Major" : 'maj', "Minor" : 'min', "Dom_7" : "7", "Diminished": "dim", "Augmented": 'aug'
+                "Major" : 'maj', "Minor" : 'min', "Dom_7" : "7", "Diminished": "dim", "Sus": 'sus'
             }
 
             if (embellish == '-') {return note + triad_map[triad]}
@@ -492,7 +546,7 @@ ChordSearch.prototype.buildResults = function(shapes, note, triad, embellish) {
             .attr("rx", 2)
             .attr("ry", 2)
             .attr("fill", "white")
-            .style("opacity", .85);
+            .style("opacity", .9);
 
         chord_highlights_s.exit().remove()
     }
