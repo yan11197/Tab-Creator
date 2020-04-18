@@ -3,6 +3,7 @@
 ## Key Specification:
 - Pick a key from the sliders above to denote on the fretboard which notes are in that key
 - Will add further scales (pentatonic, etc.)
+- Can click the __1__, __3__, and __5__ buttons to highlight the key's root, third, and fifth.
 
 ## Tab Creation:
 - Press highlighted fret to add it to the tab
