@@ -155,4 +155,146 @@ Legend.prototype.initVis = function() {
         .text("r")
         .style("text-anchor", "middle");
 
-}
+    vis.UpdateVis()
+};
+
+Legend.prototype.UpdateVis = function() {
+    var vis = this;
+
+    vis.shift.on("click", function() {
+        multiple =  !multiple;
+
+        toggle_off(vis.hammer); hammer_on = false;
+        toggle_off(vis.pull); pull_off = false;
+        toggle_off(vis.slide_up); slide_up = false;
+        toggle_off(vis.slide_down); slide_down = false;
+        toggle_off(vis.bend); bend = false;
+        toggle_off(vis.release); release = false;
+
+        if (multiple === false) {
+            vis.shift.attr("fill", "lightgrey").style("opacity", 1);
+            if (FretBoard.current_click.join('') !== "------") {
+                FretBoard.shiftReleased()}
+        } else {vis.shift.attr("fill", "green").style("opacity", .75);}
+    })
+
+    vis.hammer.on("click", function() {
+        if (!multiple) {
+            hammer_on = !hammer_on;
+
+            toggle_off(vis.pull); pull_off = false;
+            toggle_off(vis.slide_up); slide_up = false;
+            toggle_off(vis.slide_down); slide_down = false;
+            toggle_off(vis.bend); bend = false;
+            toggle_off(vis.release); release = false;
+
+            if (hammer_on === false) {
+                vis.hammer.attr("fill", "lightgrey").style("opacity", 1);
+                FretBoard.current_tone = "-";
+            } else {
+                FretBoard.current_tone = "h";
+                vis.hammer.attr("fill", "green").style("opacity", .75);
+            }
+        }
+    });
+
+    vis.pull.on("click", function() {
+        if (!multiple) {
+            pull_off = !pull_off;
+
+            toggle_off(vis.hammer); hammer_on = false;
+            toggle_off(vis.slide_up); slide_up = false;
+            toggle_off(vis.slide_down); slide_down = false;
+            toggle_off(vis.bend); bend = false;
+            toggle_off(vis.release); release = false;
+
+            if (pull_off === false) {
+                vis.pull.attr("fill", "lightgrey").style("opacity", 1);
+                FretBoard.current_tone = "-";
+            } else {
+                FretBoard.current_tone = "h";
+                vis.pull.attr("fill", "green").style("opacity", .75);
+            }
+        }
+    });
+
+    vis.slide_up.on("click", function() {
+        if (!multiple) {
+            slide_up = !slide_up;
+
+            toggle_off(vis.hammer); hammer_on = false;
+            toggle_off(vis.pull); pull_off = false;
+            toggle_off(vis.slide_down); slide_down = false;
+            toggle_off(vis.bend); bend = false;
+            toggle_off(vis.release); release = false;
+
+            if (slide_up === false) {
+                vis.slide_up.attr("fill", "lightgrey").style("opacity", 1);
+                FretBoard.current_tone = "-";
+            } else {
+                vis.slide_up.attr("fill", "green").style("opacity", .75);
+                FretBoard.current_tone = "/";
+            }
+        }
+    });
+
+    vis.slide_down.on("click", function() {
+        if (!multiple) {
+            slide_down = !slide_down;
+
+            toggle_off(vis.hammer); hammer_on = false;
+            toggle_off(vis.pull); pull_off = false;
+            toggle_off(vis.slide_up); slide_up = false;
+            toggle_off(vis.bend); bend = false;
+            toggle_off(vis.release); release = false;
+
+            if (slide_down === false) {
+                vis.slide_down.attr("fill", "lightgrey").style("opacity", 1);
+                FretBoard.current_tone = "-";
+            } else {
+                vis.slide_down.attr("fill", "green").style("opacity", .75);
+                FretBoard.current_tone = "\\";
+            }
+        }
+    });
+
+    vis.bend.on("click", function() {
+        if (!multiple) {
+            bend = !bend;
+
+            toggle_off(vis.hammer); hammer_on = false;
+            toggle_off(vis.pull); pull_off = false;
+            toggle_off(vis.slide_up); slide_up = false;
+            toggle_off(vis.slide_down); slide_down = false;
+            toggle_off(vis.release); release = false;
+
+            if (bend === false) {
+                vis.bend.attr("fill", "lightgrey").style("opacity", 1);
+                FretBoard.current_tone = "-";
+            } else {
+                vis.bend.attr("fill", "green").style("opacity", .75);
+                FretBoard.current_tone = "b";
+            }
+        }
+    });
+
+    vis.release.on("click", function() {
+        if (!multiple) {
+            release = !release;
+
+            toggle_off(vis.hammer); hammer_on = false;
+            toggle_off(vis.pull); pull_off = false;
+            toggle_off(vis.slide_up); slide_up = false;
+            toggle_off(vis.bend); bend = false;
+            toggle_off(vis.slide_down); slide_down = false;
+
+            if (release === false) {
+                vis.release.attr("fill", "lightgrey").style("opacity", 1);
+                FretBoard.current_tone = "-";
+            } else {
+                vis.release.attr("fill", "green").style("opacity", .75);
+                FretBoard.current_tone = "r";
+            }
+        }
+    });
+};

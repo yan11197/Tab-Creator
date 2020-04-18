@@ -140,11 +140,6 @@ function keyPressed(event) {
             toggle_off(Legend.bend); bend = false;
             toggle_off(Legend.release); release = false;
 
-            hammer_on = false;
-            pull_off = false;
-            slide_down = false;
-            bend = false;
-            release = false;
             if (slide_up === false) {
                 Legend.slide_up.attr("fill", "lightgrey").style("opacity", 1);
                 FretBoard.current_tone = "-";
