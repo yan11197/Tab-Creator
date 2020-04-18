@@ -10,8 +10,8 @@
 
     <div class="container-fluid" style="height: 100vh; width: 97vw; padding-top: 0vh; padding-left: 0vh; padding-right: 0vh">
 <!--        Selectors for Key-->
-        <div class="row" style="height: 5vh; padding-top: 2vh; padding-left: 2vw; padding-right: 4.5vw">
-            <div class="col">
+        <div class="row" style="height: 5vh; padding-top: 2vh; padding-left: 2vw; padding-right: 4vw">
+            <div class="col" style="width: 80vh">
                 <select id="key_note" style="width: 2.75vw; height: 20px" onchange="FretBoard.updateKey()">
                     <option value="-">-</option>
                     <option value="C">C</option>
@@ -39,6 +39,36 @@
                 <button class="button" id="button_r" style="height: 20px; width: 35px" onclick="FretBoard.rootHighlight()">1</button>
                 <button class="button" id="button_3" style="height: 20px; width: 35px" onclick="FretBoard.thirdHighlight()">3</button>
                 <button class="button" id="button_5" style="height: 20px; width: 35px" onclick="FretBoard.fifthHighlight()">5</button>
+            </div>
+                <select class="cs" id="chord_note" style="height: 20px; width: 4vw" onchange="FretBoard.updateKey()">
+                    <option value="-">-</option>
+                    <option value="C">C</option>
+                    <option value="Db">Db</option>
+                    <option value="D">D</option>
+                    <option value="Eb">Eb</option>
+                    <option value="E">E</option>
+                    <option value="F">F</option>
+                    <option value="Gb">Gb</option>
+                    <option value="G">G</option>
+                    <option value="Ab">Ab</option>
+                    <option value="A">A</option>
+                    <option value="Bb">Bb</option>
+                    <option value="B">B</option>
+                </select>
+
+                <select class="cs" id="chord_triad" style="height: 20px; width: 4vw" onchange="FretBoard.updateKey()">
+                    <option value="-">-</option>
+                    <option value="Major">Maj</option>
+                    <option value="Minor">Min</option>
+                    <option value="Major_pent">Dim</option>
+                    <option value="Minor_pent">Aug</option>
+                </select>
+
+                <select class="cs" id="chord_embelish" style="height: 20px; width: 4vw" onchange="FretBoard.updateKey()">
+                    <option value="-">-</option>
+                </select>
+            <div>
+
             </div>
         </div>
 
@@ -130,14 +160,14 @@
                     <option value="Eb">Eb</option>
                 </select>
             </div>
-            <div style="width: 78vw; padding-right: 2vw" id="fretboard"></div>
-            <div style="width: 10vw" id="legend"></div>
+            <div style="width: 76vw; padding-right: 2vw" id="fretboard"></div>
+            <div style="width: 12vw" id="legend"></div>
         </div>
 
 <!--        Tab SVG-->
         <div class = "row" style="height: 70vh; padding-top: 2vh; padding-left: 2.5vw; padding-right: 4vw">
-            <div class="col" style="width: 82vw; padding-right: 1vw" id="tab"></div>
-            <div style="width: 10vw; height: 70vh" id="saved"></div>
+            <div class="col" style="width: 80vw; padding-right: 1vw" id="tab"></div>
+            <div style="width: 12vw; height: 70vh" id="saved"></div>
         </div>
 
     </div>
@@ -150,6 +180,7 @@
     <script src="js/tab.js"></script>
     <script src="js/saved.js"></script>
     <script src="js/legend.js"></script>
+    <script src="js/ChordSearch.js"></script>
     <script src="js/main.js"></script>
 </body>
 </html>

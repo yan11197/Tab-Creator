@@ -19,6 +19,7 @@ Saved.prototype.initVis = function() {
     // Creating the svg
     vis.svg = d3.select("#" + vis.parentElement).append("svg")
         .attr("viewBox", vis.dim[0] + vis.dim[1].toString())
+        .attr("id", "saved_svg")
 
     // Creating the backdrop rectangle
     vis.backdrop = vis.svg.append("rect")

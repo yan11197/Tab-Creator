@@ -38,8 +38,13 @@ function toggle_off (a) {
 }
 
 function keyPressed(event) {
+    if (event['key'] === 'Enter') {
+        if (document.getElementById("chord_note").value !== "-" && document.getElementById("chord_triad").value !== "-") {
+            ChordSearch.updateVis()
+        }
+    }
     // Fast scrolling
-    if (event['key'] === "Meta") {fast_scrolling = !fast_scrolling}
+    else if (event['key'] === "Meta") {fast_scrolling = !fast_scrolling}
 
     // Save a chord
     else if (event['key'] === "s" && multiple) {
@@ -49,9 +54,9 @@ function keyPressed(event) {
         }
     }
 
-    else if (event['key'] == "c") {
+    else if (event['key'] === "c") {
         // Clear the saved chords
-        if (confirm("Do you want to clear your saved chords?") == true) {
+        if (confirm("Do you want to clear your saved chords?") === true) {
             Saved.clearChord()
         }
     }
@@ -226,4 +231,5 @@ function makeFredBoard() {
      Legend = new Legend("legend")
      Tab = new Tab("tab", FretBoard);
      Saved = new Saved("saved", FretBoard);
+     ChordSearch = new ChordSearch("saved", ChordSearch)
 }
