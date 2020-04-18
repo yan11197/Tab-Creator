@@ -40,7 +40,7 @@
                 <button class="button" id="button_3" style="height: 20px; width: 35px" onclick="FretBoard.thirdHighlight()">3</button>
                 <button class="button" id="button_5" style="height: 20px; width: 35px" onclick="FretBoard.fifthHighlight()">5</button>
             </div>
-                <select class="cs" id="chord_note" style="height: 20px; width: 4vw" onchange="FretBoard.updateKey()">
+                <select class="cs" id="chord_note" style="height: 20px; width: 4vw">
                     <option value="-">-</option>
                     <option value="C">C</option>
                     <option value="Db">Db</option>
@@ -56,15 +56,17 @@
                     <option value="B">B</option>
                 </select>
 
-                <select class="cs" id="chord_triad" style="height: 20px; width: 4vw" onchange="FretBoard.updateKey()">
+                <select class="cs" id="chord_triad" style="height: 20px; width: 4vw" onchange="ChordSearch.updateEmbellish(this.value)">
                     <option value="-">-</option>
                     <option value="Major">Maj</option>
                     <option value="Minor">Min</option>
-                    <option value="Major_pent">Dim</option>
-                    <option value="Minor_pent">Aug</option>
+                    <option value="Dom_7">7</option>
+                    <option value="Sus">Sus</option>
+                    <option value="Diminished">Dim</option>
+                    <option value="Augmented">Aug</option>
                 </select>
 
-                <select class="cs" id="chord_embelish" style="height: 20px; width: 4vw" onchange="FretBoard.updateKey()">
+                <select class="cs" id="chord_embellish" style="height: 20px; width: 4vw">
                     <option value="-">-</option>
                 </select>
             <div>

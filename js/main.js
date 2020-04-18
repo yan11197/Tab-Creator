@@ -40,14 +40,18 @@ function toggle_off (a) {
 function keyPressed(event) {
     if (event['key'] === 'Enter') {
         if (document.getElementById("chord_note").value !== "-" && document.getElementById("chord_triad").value !== "-") {
+            if (ChordSearch.search_mode) {
+                ChordSearch.clearResults();
+            }
+            ChordSearch.search_mode = true;
             ChordSearch.updateVis()
         }
     }
     // Fast scrolling
     else if (event['key'] === "Meta") {fast_scrolling = !fast_scrolling}
 
-    // Save a chord
-    else if (event['key'] === "s" && multiple) {
+    // Save a chord only if s pressed, multiple is on, and not in ChordSearch mode
+    else if (event['key'] === "s" && multiple && !ChordSearch.search_mode) {
         // Add the new chord to saved chords
         if (! saved_chords.includes(FretBoard.current_click.join(""))) {
             Saved.saveChord()
