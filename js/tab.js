@@ -23,7 +23,8 @@ Tab.prototype.initVis = function() {
     vis.svg = d3.select("#" + vis.parentElement).append("svg")
         .attr("width", vis.width + vis.margin.left + vis.margin.right)
         .attr("height", vis.height + vis.margin.top + vis.margin.bottom)
-        .attr("class", "tab");
+        .attr("class", "tab")
+        .attr("id", "tab_svg");
 
     // Creating 6 textboxes
     var v = [FretBoard.first.toLowerCase(), FretBoard.second, FretBoard.third, FretBoard.fourth, FretBoard.fifth, FretBoard.sixth]

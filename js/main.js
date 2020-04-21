@@ -26,6 +26,9 @@ var space = false;
 var fast_scrolling = false;
 var fast = 4;
 
+// Create variable for help
+var help = true;
+
 // Create an array to remember saved chords
 var saved_chords = [];
 var saved_chords_map = [];
@@ -38,6 +41,11 @@ function toggle_off (a) {
 }
 
 function keyPressed(event) {
+    if (event['key'] === 'q') {
+        help = !help
+        if (help) {Help.createHelp()}
+        else {Help.removeHelp()}
+    }
     if (event['key'] === 'Enter') {
         if (document.getElementById("chord_note").value !== "-" && document.getElementById("chord_triad").value !== "-") {
             if (ChordSearch.search_mode) {
@@ -230,5 +238,6 @@ function makeFredBoard() {
      Legend = new Legend("legend")
      Tab = new Tab("tab", FretBoard);
      Saved = new Saved("saved", FretBoard);
-     ChordSearch = new ChordSearch("saved", ChordSearch)
+     ChordSearch = new ChordSearch("saved", ChordSearch);
+     Help = new Help("tab", FretBoard);
 }
