@@ -67,8 +67,6 @@ Tab.prototype.TabAddition = function() {
         vis.tab_memory_string[i] = splitString(s, vis.max_length)
     }
 
-
-
     // Adding the spaces and the key signature
     for (var i = 0; i < 6; i++) {
         if (vis.tab_memory_string[i] == null) {
@@ -135,7 +133,6 @@ Tab.prototype.makeTabKey = function() {
     // Finding out if there are any flats or not
     tab_key = []
     var key = [FretBoard.first.toLowerCase(), FretBoard.second, FretBoard.third, FretBoard.fourth, FretBoard.fifth, FretBoard.sixth];
-
 
     for (var i =0; i < 6; i++) {
         if (key[i].length > 1) {tab_key.push([key[i] + "|"])}

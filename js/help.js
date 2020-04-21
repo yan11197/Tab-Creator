@@ -34,36 +34,34 @@ Help.prototype.createHelp = function () {
     vis.text =
         [
             "Key Specification: ",
-            "- Pick a key from the selectors above to denote on the fretboard which notes are in that key ",
-            "- Click the 1, 3, and 5 buttons to highlight the key's root, third, and fifth. ",
-            " ",
+            "- Pick a key from the selectors above to highlight on the fretboard which notes are in that key ",
+            "- Click the 1, 3, and 5 buttons to highlight the key's root, third, and fifth. \n ",
             "Tab Creation: ",
             "- Press highlighted fret to add it to the tab ",
             "- To navigate throughout your tab use the left and right arrow keys and command to engage and disengage fast scrolling ",
-            "- Use delete and space to delete notes and add rests respectively ",
-            " ",
+            "- Use delete and space to delete notes and add rests respectively \n ",
+            "Tab Export: ",
+            "- To save your tab as a .txt file press the export button ",
+            "- Your tab will have the width of your tab on the screen, so adjust your window size and reload accordingly\n ",
             "Toolbox: ",
             "- For hammerons, pulloffs, slides, bends, and releases press h, p, /, , b, and r respectively ",
             "- Once you pick the next note it will be inserted correctly in the tab ",
-            "- For chords press the shift key, click all the notes you wish to add, then press again to add the chord to the tab ",
-            " ",
+            "- For chords press the shift key, click all the notes you wish to add, then press again to add the chord to the tab \n ",
             "Saved Chords: ",
             "- While in chord mode press s to save out the chord ",
             "- Insert the chord's name and it will appear on the right ",
             "- Click the label above the chord visualization to insert the chord ",
-            "- To clear your saved chords press c ",
-            " ",
+            "- To clear your saved chords press c \n ",
             "Chord Search: ",
             "- On the top right corner, use the drop downs to specify a chord ",
             "- Once specified press enter to return a list of different chord voicings for that chord ",
             "- Select a chord and continue ",
-            "- Warning: only chords inputted for standard interval tuning ",
-            " ",
+            "- Warning: only chords inputted for standard interval tuning \n ",
             "Help: ",
             "- To gain access to or remove these helpful instructions, press q or click the help button "
         ];
 
-    vis.bolded = [0, 4, 9, 14, 20, 26];
+    vis.bolded = [0, 3, 7, 10, 14, 19, 24];
 
     // Creating the backround
     vis.backdrop = vis.svg.append("rect")
@@ -126,7 +124,7 @@ Help.prototype.removeHelp = function () {
 Help.prototype.swapHelp = function () {
   var vis = this;
 
-  help = !help
+  help = !help;
 
   if (help) {vis.createHelp()}
   else {vis.removeHelp()}
