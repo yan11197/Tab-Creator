@@ -115,7 +115,7 @@ Help.prototype.removeHelp = function () {
     var vis = this;
 
     // Change the color back
-    document.getElementById("help_button").style.background = "lightgrey";
+    document.getElementById("help_button").style.background = "#E8E8E8";
     document.getElementById("help_button").style.opacity = "1";
 
     // Remove everything

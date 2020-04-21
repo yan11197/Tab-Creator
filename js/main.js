@@ -46,188 +46,230 @@ function keyPressed(event) {
         if (help) {Help.createHelp()}
         else {Help.removeHelp()}
     }
-    if (event['key'] === 'Enter') {
-        if (document.getElementById("chord_note").value !== "-" && document.getElementById("chord_triad").value !== "-") {
-            if (ChordSearch.search_mode) {
-                ChordSearch.clearResults();
-            }
-            ChordSearch.search_mode = true;
-            ChordSearch.updateVis()
-        }
-    }
-    // Fast scrolling
-    else if (event['key'] === "Meta") {fast_scrolling = !fast_scrolling}
-
-    // Save a chord only if s pressed, multiple is on, and not in ChordSearch mode
-    else if (event['key'] === "s" && multiple && !ChordSearch.search_mode) {
-        // Add the new chord to saved chords
-        if (! saved_chords.includes(FretBoard.current_click.join(""))) {
-            Saved.saveChord()
-        }
-    }
-
-    else if (event['key'] === "c") {
-        // Clear the saved chords
-        if (confirm("Do you want to clear your saved chords?") === true) {
-            Saved.clearChord()
-        }
-    }
-
-    // Legend key events
-    else if (event['key'] === "Shift") {
-        multiple =  !multiple;
-
-        toggle_off(Legend.hammer); hammer_on = false;
-        toggle_off(Legend.pull); pull_off = false;
-        toggle_off(Legend.slide_up); slide_up = false;
-        toggle_off(Legend.slide_down); slide_down = false;
-        toggle_off(Legend.bend); bend = false;
-        toggle_off(Legend.release); release = false;
-
-        if (multiple === false) {
-            Legend.shift.attr("fill", "lightgrey").style("opacity", 1);
-            if (FretBoard.current_click.join('') !== "------") {
-                FretBoard.shiftReleased()}
-        } else {Legend.shift.attr("fill", "green").style("opacity", .75);}
-    }
-
-    // Move cursor
-    else if (event['key'] === 'ArrowLeft') {
-        if (Tab.counter > 0) {
-            if (fast_scrolling) {
-                Tab.counter = Math.max(0, Tab.counter - 2*fast)
-            } else {Tab.counter -= 2}
-            Tab.MarkerMove()
-        }
-    }
-    else if (event['key'] === 'ArrowRight') {
-        if (Tab.counter < tab_memory[0].length) {
-            if (fast_scrolling) {
-                Tab.counter = Math.min(Tab.counter + 2*fast, tab_memory[0].length)
-            } else {Tab.counter += 2}
-
-            Tab.MarkerMove()
-        }
-    }
-
-    else if (!multiple) {
-        if (event['key'] === "h") {
-            hammer_on = !hammer_on;
-
-            toggle_off(Legend.pull); pull_off = false;
-            toggle_off(Legend.slide_up); slide_up = false;
-            toggle_off(Legend.slide_down); slide_down = false;
-            toggle_off(Legend.bend); bend = false;
-            toggle_off(Legend.release); release = false;
-
-            if (hammer_on === false) {
-                Legend.hammer.attr("fill", "lightgrey").style("opacity", 1);
-                FretBoard.current_tone = "-";
-            } else {
-                FretBoard.current_tone = "h";
-                Legend.hammer.attr("fill", "green").style("opacity", .75);
-            }
-        } else if (event['key'] === "p") {
-            pull_off = !pull_off
-
-            toggle_off(Legend.hammer); hammer_on = false;
-            toggle_off(Legend.slide_up); slide_up = false;
-            toggle_off(Legend.slide_down); slide_down = false;
-            toggle_off(Legend.bend); bend = false;
-            toggle_off(Legend.release); release = false;
-
-            if (pull_off === false) {
-                Legend.pull.attr("fill", "lightgrey").style("opacity", 1);
-                FretBoard.current_tone = "-";
-            } else {
-                Legend.pull.attr("fill", "green").style("opacity", .75);
-                FretBoard.current_tone = "p";
-            }
-        } else if (event['key'] === "/") {
-            slide_up = !slide_up
-
-            toggle_off(Legend.hammer); hammer_on = false;
-            toggle_off(Legend.pull); pull_off = false;
-            toggle_off(Legend.slide_down); slide_down = false;
-            toggle_off(Legend.bend); bend = false;
-            toggle_off(Legend.release); release = false;
-
-            if (slide_up === false) {
-                Legend.slide_up.attr("fill", "lightgrey").style("opacity", 1);
-                FretBoard.current_tone = "-";
-            } else {
-                Legend.slide_up.attr("fill", "green").style("opacity", .75);
-                FretBoard.current_tone = "/";
-            }
-        } else if (event['key'] === "\\") {
-            slide_down = !slide_down
-
-            toggle_off(Legend.hammer); hammer_on = false;
-            toggle_off(Legend.pull); pull_off = false;
-            toggle_off(Legend.slide_up); slide_up = false;
-            toggle_off(Legend.bend); bend = false;
-            toggle_off(Legend.release); release = false;
-
-            if (slide_down === false) {
-                Legend.slide_down.attr("fill", "lightgrey").style("opacity", 1);
-                FretBoard.current_tone = "-";
-            } else {
-                Legend.slide_down.attr("fill", "green").style("opacity", .75);
-                FretBoard.current_tone = "\\";
-            }
-        } else if (event['key'] === "b") {
-            bend = !bend
-
-            toggle_off(Legend.hammer); hammer_on = false;
-            toggle_off(Legend.pull); pull_off = false;
-            toggle_off(Legend.slide_up); slide_up = false;
-            toggle_off(Legend.slide_down); slide_down = false;
-            toggle_off(Legend.release); release = false;
-
-            if (bend === false) {
-                Legend.bend.attr("fill", "lightgrey").style("opacity", 1);
-                FretBoard.current_tone = "-";
-            } else {
-                Legend.bend.attr("fill", "green").style("opacity", .75);
-                FretBoard.current_tone = "b";
-            }
-        } else if (event['key'] === "r") {
-            release = !release
-
-            toggle_off(Legend.hammer); hammer_on = false;
-            toggle_off(Legend.pull); pull_off = false;
-            toggle_off(Legend.slide_up); slide_up = false;
-            toggle_off(Legend.slide_down); slide_down = false;
-            toggle_off(Legend.bend); bend = false;
-
-            if (release === false) {
-                Legend.release.attr("fill", "lightgrey").style("opacity", 1);
-                FretBoard.current_tone = "-";
-            } else {
-                Legend.release.attr("fill", "green").style("opacity", .75);
-                FretBoard.current_tone = "r";
-            }
-        }
-
-        // Space and delete
-        else if (event['key'] === " ") {
-            space = true;
-            FretBoard.shiftReleased()
-            space = false;
-        } else if (event['key'] === "Backspace") {
-            if (Tab.counter > 1) {
-                for (var i = 0; i < 6; i++) {
-                    tab_memory[i].splice(Tab.counter, 1);
-                    tab_memory[i].splice(Tab.counter - 1, 1);
+    else if (!help) {
+        if (event['key'] === 'Enter') {
+            if (document.getElementById("chord_note").value !== "-" && document.getElementById("chord_triad").value !== "-") {
+                if (ChordSearch.search_mode) {
+                    ChordSearch.clearResults();
                 }
-                Tab.counter = Tab.counter - 2
-                Tab.TabAddition()
-            } else if (Tab.counter === 1) {
-                for (var i = 0; i < 6; i++) {
-                    tab_memory[i].splice(Tab.counter, 1);
+                ChordSearch.search_mode = true;
+                ChordSearch.updateVis()
+            }
+        }
+        // Fast scrolling
+        else if (event['key'] === "Meta") {
+            fast_scrolling = !fast_scrolling
+        }
+
+        // Save a chord only if s pressed, multiple is on, and not in ChordSearch mode
+        else if (event['key'] === "s" && multiple && !ChordSearch.search_mode) {
+            // Add the new chord to saved chords
+            if (!saved_chords.includes(FretBoard.current_click.join(""))) {
+                Saved.saveChord()
+            }
+        } else if (event['key'] === "c") {
+            // Clear the saved chords
+            if (confirm("Do you want to clear your saved chords?") === true) {
+                Saved.clearChord()
+            }
+        }
+
+        // Legend key events
+        else if (event['key'] === "Shift") {
+            multiple = !multiple;
+
+            toggle_off(Legend.hammer);
+            hammer_on = false;
+            toggle_off(Legend.pull);
+            pull_off = false;
+            toggle_off(Legend.slide_up);
+            slide_up = false;
+            toggle_off(Legend.slide_down);
+            slide_down = false;
+            toggle_off(Legend.bend);
+            bend = false;
+            toggle_off(Legend.release);
+            release = false;
+
+            if (multiple === false) {
+                Legend.shift.attr("fill", "lightgrey").style("opacity", 1);
+                if (FretBoard.current_click.join('') !== "------") {
+                    FretBoard.shiftReleased()
                 }
-                Tab.counter = Tab.counter - 1
-                Tab.TabAddition()
+            } else {
+                Legend.shift.attr("fill", "green").style("opacity", .75);
+            }
+        }
+
+        // Move cursor
+        else if (event['key'] === 'ArrowLeft') {
+            if (Tab.counter > 0) {
+                if (fast_scrolling) {
+                    Tab.counter = Math.max(0, Tab.counter - 2 * fast)
+                } else {
+                    Tab.counter -= 2
+                }
+                Tab.MarkerMove()
+            }
+        } else if (event['key'] === 'ArrowRight') {
+            if (Tab.counter < tab_memory[0].length) {
+                if (fast_scrolling) {
+                    Tab.counter = Math.min(Tab.counter + 2 * fast, tab_memory[0].length)
+                } else {
+                    Tab.counter += 2
+                }
+
+                Tab.MarkerMove()
+            }
+        } else if (!multiple) {
+            if (event['key'] === "h") {
+                hammer_on = !hammer_on;
+
+                toggle_off(Legend.pull);
+                pull_off = false;
+                toggle_off(Legend.slide_up);
+                slide_up = false;
+                toggle_off(Legend.slide_down);
+                slide_down = false;
+                toggle_off(Legend.bend);
+                bend = false;
+                toggle_off(Legend.release);
+                release = false;
+
+                if (hammer_on === false) {
+                    Legend.hammer.attr("fill", "lightgrey").style("opacity", 1);
+                    FretBoard.current_tone = "-";
+                } else {
+                    FretBoard.current_tone = "h";
+                    Legend.hammer.attr("fill", "green").style("opacity", .75);
+                }
+            } else if (event['key'] === "p") {
+                pull_off = !pull_off
+
+                toggle_off(Legend.hammer);
+                hammer_on = false;
+                toggle_off(Legend.slide_up);
+                slide_up = false;
+                toggle_off(Legend.slide_down);
+                slide_down = false;
+                toggle_off(Legend.bend);
+                bend = false;
+                toggle_off(Legend.release);
+                release = false;
+
+                if (pull_off === false) {
+                    Legend.pull.attr("fill", "lightgrey").style("opacity", 1);
+                    FretBoard.current_tone = "-";
+                } else {
+                    Legend.pull.attr("fill", "green").style("opacity", .75);
+                    FretBoard.current_tone = "p";
+                }
+            } else if (event['key'] === "/") {
+                slide_up = !slide_up
+
+                toggle_off(Legend.hammer);
+                hammer_on = false;
+                toggle_off(Legend.pull);
+                pull_off = false;
+                toggle_off(Legend.slide_down);
+                slide_down = false;
+                toggle_off(Legend.bend);
+                bend = false;
+                toggle_off(Legend.release);
+                release = false;
+
+                if (slide_up === false) {
+                    Legend.slide_up.attr("fill", "lightgrey").style("opacity", 1);
+                    FretBoard.current_tone = "-";
+                } else {
+                    Legend.slide_up.attr("fill", "green").style("opacity", .75);
+                    FretBoard.current_tone = "/";
+                }
+            } else if (event['key'] === "\\") {
+                slide_down = !slide_down
+
+                toggle_off(Legend.hammer);
+                hammer_on = false;
+                toggle_off(Legend.pull);
+                pull_off = false;
+                toggle_off(Legend.slide_up);
+                slide_up = false;
+                toggle_off(Legend.bend);
+                bend = false;
+                toggle_off(Legend.release);
+                release = false;
+
+                if (slide_down === false) {
+                    Legend.slide_down.attr("fill", "lightgrey").style("opacity", 1);
+                    FretBoard.current_tone = "-";
+                } else {
+                    Legend.slide_down.attr("fill", "green").style("opacity", .75);
+                    FretBoard.current_tone = "\\";
+                }
+            } else if (event['key'] === "b") {
+                bend = !bend
+
+                toggle_off(Legend.hammer);
+                hammer_on = false;
+                toggle_off(Legend.pull);
+                pull_off = false;
+                toggle_off(Legend.slide_up);
+                slide_up = false;
+                toggle_off(Legend.slide_down);
+                slide_down = false;
+                toggle_off(Legend.release);
+                release = false;
+
+                if (bend === false) {
+                    Legend.bend.attr("fill", "lightgrey").style("opacity", 1);
+                    FretBoard.current_tone = "-";
+                } else {
+                    Legend.bend.attr("fill", "green").style("opacity", .75);
+                    FretBoard.current_tone = "b";
+                }
+            } else if (event['key'] === "r") {
+                release = !release
+
+                toggle_off(Legend.hammer);
+                hammer_on = false;
+                toggle_off(Legend.pull);
+                pull_off = false;
+                toggle_off(Legend.slide_up);
+                slide_up = false;
+                toggle_off(Legend.slide_down);
+                slide_down = false;
+                toggle_off(Legend.bend);
+                bend = false;
+
+                if (release === false) {
+                    Legend.release.attr("fill", "lightgrey").style("opacity", 1);
+                    FretBoard.current_tone = "-";
+                } else {
+                    Legend.release.attr("fill", "green").style("opacity", .75);
+                    FretBoard.current_tone = "r";
+                }
+            }
+
+            // Space and delete
+            else if (event['key'] === " ") {
+                space = true;
+                FretBoard.shiftReleased()
+                space = false;
+            } else if (event['key'] === "Backspace") {
+                if (Tab.counter > 1) {
+                    for (var i = 0; i < 6; i++) {
+                        tab_memory[i].splice(Tab.counter, 1);
+                        tab_memory[i].splice(Tab.counter - 1, 1);
+                    }
+                    Tab.counter = Tab.counter - 2
+                    Tab.TabAddition()
+                } else if (Tab.counter === 1) {
+                    for (var i = 0; i < 6; i++) {
+                        tab_memory[i].splice(Tab.counter, 1);
+                    }
+                    Tab.counter = Tab.counter - 1
+                    Tab.TabAddition()
+                }
             }
         }
     }

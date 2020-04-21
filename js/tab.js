@@ -67,6 +67,8 @@ Tab.prototype.TabAddition = function() {
         vis.tab_memory_string[i] = splitString(s, vis.max_length)
     }
 
+
+
     // Adding the spaces and the key signature
     for (var i = 0; i < 6; i++) {
         if (vis.tab_memory_string[i] == null) {
