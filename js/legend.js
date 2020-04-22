@@ -40,6 +40,7 @@ Legend.prototype.initVis = function() {
         .attr("height", vis.height/4 - vis.inner_margin)
         .attr("rx", 4)
         .attr("ry", 4)
+        .attr("class", "shift_button")
         .attr("fill", "lightgrey");
 
     vis.svg.append("text")
@@ -47,6 +48,7 @@ Legend.prototype.initVis = function() {
         .attr("y", vis.inner_margin + (vis.height/4 - vis.inner_margin)/2)
         .attr("alignment-baseline", "middle")
         .text("Chord (shift)")
+        .attr("class", "shift_button")
         .style("text-anchor", "middle");
 
     vis.hammer = vis.svg.append("rect")
@@ -57,12 +59,14 @@ Legend.prototype.initVis = function() {
         .attr("height", (vis.height-vis.inner_margin)/4 - vis.inner_margin)
         .attr("rx", 4)
         .attr("ry", 4)
+        .attr("class", "hammer_button")
         .attr("fill", "lightgrey");
 
     vis.svg.append("text")
         .attr("x", vis.inner_margin + (vis.width/2 - vis.inner_margin*1.5)/2)
         .attr("y", vis.inner_margin*2 + (vis.height-vis.inner_margin*5)/4 + (vis.height/4 - vis.inner_margin)/2)
         .attr("alignment-baseline", "middle")
+        .attr("class", "hammer_button")
         .text("h")
         .style("text-anchor", "middle");
 
@@ -74,6 +78,7 @@ Legend.prototype.initVis = function() {
         .attr("height", (vis.height-vis.inner_margin)/4 - vis.inner_margin)
         .attr("rx", 4)
         .attr("ry", 4)
+        .attr("class", "pull_button")
         .attr("fill", "lightgrey");
 
     vis.svg.append("text")
@@ -81,6 +86,7 @@ Legend.prototype.initVis = function() {
         .attr("y", vis.inner_margin*2 + (vis.height-vis.inner_margin*5)/4 + (vis.height/4 - vis.inner_margin)/2)
         .attr("alignment-baseline", "middle")
         .text("p")
+        .attr("class", "pull_button")
         .style("text-anchor", "middle");
 
     vis.slide_up = vis.svg.append("rect")
@@ -91,6 +97,7 @@ Legend.prototype.initVis = function() {
         .attr("height", (vis.height-vis.inner_margin)/4 - vis.inner_margin)
         .attr("rx", 4)
         .attr("ry", 4)
+        .attr("class", "slide_u_button")
         .attr("fill", "lightgrey");
 
     vis.svg.append("text")
@@ -99,6 +106,7 @@ Legend.prototype.initVis = function() {
                    ((vis.height-vis.inner_margin)/4 - vis.inner_margin)/2)
         .attr("alignment-baseline", "middle")
         .text("/")
+        .attr("class", "slide_u_button")
         .style("text-anchor", "middle");
 
     vis.slide_down = vis.svg.append("rect")
@@ -109,6 +117,7 @@ Legend.prototype.initVis = function() {
         .attr("height", (vis.height-vis.inner_margin)/4 - vis.inner_margin)
         .attr("rx", 4)
         .attr("ry", 4)
+        .attr("class", "slide_d_button")
         .attr("fill", "lightgrey");
 
     vis.svg.append("text")
@@ -117,6 +126,7 @@ Legend.prototype.initVis = function() {
             ((vis.height-vis.inner_margin)/4 - vis.inner_margin)/2)
         .attr("alignment-baseline", "middle")
         .text("\\")
+        .attr("class", "slide_d_button")
         .style("text-anchor", "middle");
 
     vis.bend = vis.svg.append("rect")
@@ -127,6 +137,7 @@ Legend.prototype.initVis = function() {
         .attr("height", (vis.height-vis.inner_margin)/4 - vis.inner_margin)
         .attr("rx", 4)
         .attr("ry", 4)
+        .attr("class", "bend_button")
         .attr("fill", "lightgrey");
 
     vis.svg.append("text")
@@ -135,6 +146,7 @@ Legend.prototype.initVis = function() {
             ((vis.height-vis.inner_margin)/4 - vis.inner_margin)/2)
         .attr("alignment-baseline", "middle")
         .text("b")
+        .attr("class", "bend_button")
         .style("text-anchor", "middle");
 
     vis.release = vis.svg.append("rect")
@@ -145,6 +157,7 @@ Legend.prototype.initVis = function() {
         .attr("height", (vis.height-vis.inner_margin)/4 - vis.inner_margin)
         .attr("rx", 4)
         .attr("ry", 4)
+        .attr("class", "release_button")
         .attr("fill", "lightgrey");
 
     vis.svg.append("text")
@@ -153,6 +166,7 @@ Legend.prototype.initVis = function() {
             ((vis.height-vis.inner_margin)/4 - vis.inner_margin)/2)
         .attr("alignment-baseline", "middle")
         .text("r")
+        .attr("class", "release_button")
         .style("text-anchor", "middle");
 
     vis.UpdateVis()
@@ -161,7 +175,7 @@ Legend.prototype.initVis = function() {
 Legend.prototype.UpdateVis = function() {
     var vis = this;
 
-    vis.shift.on("click", function() {
+    d3.selectAll(".shift_button").on("click", function() {
         multiple =  !multiple;
 
         toggle_off(vis.hammer); hammer_on = false;
@@ -178,7 +192,7 @@ Legend.prototype.UpdateVis = function() {
         } else {vis.shift.attr("fill", "green").style("opacity", .75);}
     })
 
-    vis.hammer.on("click", function() {
+    d3.selectAll(".hammer_button").on("click", function() {
         if (!multiple) {
             hammer_on = !hammer_on;
 
@@ -198,7 +212,7 @@ Legend.prototype.UpdateVis = function() {
         }
     });
 
-    vis.pull.on("click", function() {
+    d3.selectAll(".pull_button").on("click", function() {
         if (!multiple) {
             pull_off = !pull_off;
 
@@ -218,7 +232,7 @@ Legend.prototype.UpdateVis = function() {
         }
     });
 
-    vis.slide_up.on("click", function() {
+    d3.selectAll(".slide_u_button").on("click", function() {
         if (!multiple) {
             slide_up = !slide_up;
 
@@ -238,7 +252,7 @@ Legend.prototype.UpdateVis = function() {
         }
     });
 
-    vis.slide_down.on("click", function() {
+    d3.selectAll(".slide_d_button").on("click", function() {
         if (!multiple) {
             slide_down = !slide_down;
 
@@ -258,7 +272,7 @@ Legend.prototype.UpdateVis = function() {
         }
     });
 
-    vis.bend.on("click", function() {
+    d3.selectAll(".bend_button").on("click", function() {
         if (!multiple) {
             bend = !bend;
 
@@ -278,7 +292,7 @@ Legend.prototype.UpdateVis = function() {
         }
     });
 
-    vis.release.on("click", function() {
+    d3.selectAll(".release_button").on("click", function() {
         if (!multiple) {
             release = !release;
 
