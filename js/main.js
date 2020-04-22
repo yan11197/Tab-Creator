@@ -27,7 +27,7 @@ var fast_scrolling = false;
 var fast = 4;
 
 // Create variable for help
-var help = true;
+var help = false;
 
 // Create an array to remember saved chords
 var saved_chords = [];

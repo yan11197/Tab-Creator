@@ -17,8 +17,6 @@ Help.prototype.initVis = function() {
     vis.svg = d3.select("#tab_svg")
 
     vis.max_length = Math.floor((vis.width-vis.font_width*5)/vis.font_width);
-
-    vis.createHelp()
 };
 
 Help.prototype.createHelp = function () {
