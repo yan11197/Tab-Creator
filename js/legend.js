@@ -226,7 +226,7 @@ Legend.prototype.UpdateVis = function() {
                 vis.pull.attr("fill", "lightgrey").style("opacity", 1);
                 FretBoard.current_tone = "-";
             } else {
-                FretBoard.current_tone = "h";
+                FretBoard.current_tone = "p";
                 vis.pull.attr("fill", "green").style("opacity", .75);
             }
         }
